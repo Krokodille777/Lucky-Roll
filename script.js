@@ -34,9 +34,21 @@ addBtn.onclick = function(){
     if(segmentColor){
         alert("Segment color set to '" + segmentColor + "'!");
     }
-    let newSegment = document.createElement("div");
-    newSegment.innerText = segmentName || "Unnamed Segment";
-    newSegment.style = "width: 100px; height: 30px; background-color: " + (segmentColor || "grey") + "; margin: 5px; text-align: center; line-height: 30px; color: white;";
-    shapeDiv.appendChild(newSegment);
+    const canvas = document.getElementById('circle');
+    const ctx = canvas.getContext('2d');
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = Math.min(centerX, centerY) - 10;
+    const totalSegments = 6;
+
+    // Draw the new segment
+    const segmentAngle = (2 * Math.PI) / totalSegments;
+    const startAngle = segmentAngle * (totalSegments - 1);
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.arc(centerX, centerY, radius, startAngle, startAngle + segmentAngle);
+    ctx.closePath();
+    ctx.fillStyle = segmentColor || "grey";
+    ctx.fill();
 }
 document.body.appendChild(addBtn);

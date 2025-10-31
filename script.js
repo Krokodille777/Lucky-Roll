@@ -16,7 +16,7 @@ let circle = document.createElement("canvas");
 circle.id = 'circle';
 circle.width = 600;
 circle.height = 600;
-circle.style = "border: 2px solid black; border-radius: 50%; margin-right: 20px; background-color: lightgrey; ";
+circle.style = "border: 2px solid black; border-radius: 50%; margin-right: 20px; background-color: lightgrey; animation: spin 4s linear infinite;";
 
 shapeDiv.appendChild(circle);
 document.body.appendChild(shapeDiv);

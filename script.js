@@ -27,7 +27,7 @@ addBtn.style = "padding: 10px 20px; font-size: 16px; cursor: pointer;";
 addBtn.onclick = function(){
     let n = prompt("Enter number of segments to add:");
     n = parseInt(n);
-
+    let fontcolor = prompt("Enter font color for segment names (e.g., black, #FFFFFF):");
     
     const canvas = document.getElementById('circle');
     const ctx = canvas.getContext('2d');
@@ -35,27 +35,34 @@ addBtn.onclick = function(){
     const centerY = canvas.height / 2;
     const radius = Math.min(centerX, centerY) - 10;
     const anglePerSegment = (2 * Math.PI) / n;
+    
     for(let i = 0; i < n; i++){
-        // Draw text for each segment
         let segmentName = prompt("Enter segment name:");
-        if(segmentName){
-            alert("Segment '" + segmentName + "' added!");
-            ctx.fillStyle = fontcolor || "white";
-        }
         let segmentColor = prompt("Enter segment color (e.g., red, #00FF00):");
-        if(segmentColor){
-            alert("Segment color set to '" + segmentColor + "'!");
-    }
+        
         const startAngle = i * anglePerSegment;
         const endAngle = startAngle + anglePerSegment;
+        
+        // Рисуем сегмент
         ctx.beginPath();
         ctx.moveTo(centerX, centerY);
         ctx.arc(centerX, centerY, radius, startAngle, endAngle);
         ctx.closePath();
-        // Fill the segment with the chosen color or a default color
         ctx.fillStyle = segmentColor || `hsl(${(i * 360) / n}, 100%, 50%)`;
+        ctx.strokeStyle = 'black';
         ctx.fill();
         ctx.stroke();
+        
+        // Рисуем текст на сегменте
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(startAngle + anglePerSegment / 2);
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = fontcolor || "black";
+        ctx.font = "20px Arial";
+        ctx.fillText(segmentName, radius * 0.6, 0);
+        ctx.restore();
     }
 }
 document.body.appendChild(addBtn);

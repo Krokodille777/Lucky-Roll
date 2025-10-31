@@ -16,7 +16,27 @@ let circle = document.createElement("canvas");
 circle.id = 'circle';
 circle.width = 600;
 circle.height = 600;
-circle.style = "border: 2px solid black; border-radius: 50%; margin-right: 20px; background-color: lightgrey; animation: spin 4s linear infinite;";
+circle.style = "border: 2px solid black; border-radius: 50%; margin-right: 20px; background-color: lightgrey;  ";
 
 shapeDiv.appendChild(circle);
 document.body.appendChild(shapeDiv);
+addBtn = document.createElement("button");
+addBtn.id = "addBtn";
+addBtn.innerText = "Add Segment";
+addBtn.style = "padding: 10px 20px; font-size: 16px; cursor: pointer;";
+addBtn.onclick = function(){
+    alert("Add Segment button clicked!");
+    let segmentName = prompt("Enter segment name:");
+    if(segmentName){
+        alert("Segment '" + segmentName + "' added!");
+    }
+    let segmentColor = prompt("Enter segment color (e.g., red, #00FF00):");
+    if(segmentColor){
+        alert("Segment color set to '" + segmentColor + "'!");
+    }
+    let newSegment = document.createElement("div");
+    newSegment.innerText = segmentName || "Unnamed Segment";
+    newSegment.style = "width: 100px; height: 30px; background-color: " + (segmentColor || "grey") + "; margin: 5px; text-align: center; line-height: 30px; color: white;";
+    shapeDiv.appendChild(newSegment);
+}
+document.body.appendChild(addBtn);

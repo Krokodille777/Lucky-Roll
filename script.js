@@ -36,9 +36,11 @@ addBtn.onclick = function(){
     const radius = Math.min(centerX, centerY) - 10;
     const anglePerSegment = (2 * Math.PI) / n;
     for(let i = 0; i < n; i++){
+        // Draw text for each segment
         let segmentName = prompt("Enter segment name:");
         if(segmentName){
             alert("Segment '" + segmentName + "' added!");
+            ctx.fillStyle = fontcolor || "white";
         }
         let segmentColor = prompt("Enter segment color (e.g., red, #00FF00):");
         if(segmentColor){

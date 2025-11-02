@@ -1,29 +1,5 @@
-let header = document.createElement("div");
-header.className = "header";
-header.innerText = "Welcome to Lucky Roll!";
-header.style ="text-align: center; font-size: 24px; font-weight: bold; margin-top: 20px;";
-document.body.appendChild(header);
 
-let hr1 = document.createElement("hr");
-document.body.appendChild(hr1);
-
-let shapeDiv = document.createElement("div");
-shapeDiv.className = "shape-div";
-shapeDiv.style = "display: flex; justify-content: center; align-items: center; margin-top: 70px;";
-
-
-let circle = document.createElement("canvas");
-circle.id = 'circle';
-circle.width = 600;
-circle.height = 600;
-circle.style = "border: 2px solid black; border-radius: 50%; margin-right: 20px; background-color: lightgrey; color: white; ";
-
-shapeDiv.appendChild(circle);
-document.body.appendChild(shapeDiv);
-addBtn = document.createElement("button");
-addBtn.id = "addBtn";
-addBtn.innerText = "Set the Wheel Segments";
-addBtn.style = "padding: 10px 20px; font-size: 16px; cursor: pointer;";
+let addBtn = document.getElementById('addBtn');
 addBtn.onclick = function(){
     let n = prompt("Enter number of segments to add:");
     n = parseInt(n);
@@ -65,4 +41,58 @@ addBtn.onclick = function(){
         ctx.restore();
     }
 }
-document.body.appendChild(addBtn);
+
+let spinbtn = document.getElementById('spinbtn');
+let isSpinning = false;
+
+spinbtn.onclick = () => {
+    if (isSpinning) return;
+    
+    const canvas = document.getElementById('circle');
+    const ctx = canvas.getContext('2d');
+
+    // Снимок текущего состояния колеса
+    const snapshot = document.createElement('canvas');
+    snapshot.width = canvas.width;
+    snapshot.height = canvas.height;
+    const sctx = snapshot.getContext('2d');
+    sctx.drawImage(canvas, 0, 0);
+
+    isSpinning = true;
+    
+    // Параметры анимации
+    const startTime = Date.now();
+    const duration = 3000; // 3 секунды
+    const totalRotation = 360 * 5 + Math.random() * 360; // 5 оборотов + случайный угол
+    let currentRotation = 0;
+
+    const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing функция (ease-out cubic) для плавного замедления
+        const eased = 1 - Math.pow(1 - progress, 3);
+        
+        currentRotation = totalRotation * eased;
+
+        // Отрисовка
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate((currentRotation * Math.PI) / 180);
+        ctx.translate(-canvas.width / 2, -canvas.height / 2);
+        ctx.drawImage(snapshot, 0, 0);
+        ctx.restore();
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            isSpinning = false;
+            // Здесь можно определить выигрышный сектор
+            const finalAngle = currentRotation % 360;
+            console.log('Остановилось на угле:', finalAngle);
+        }
+    };
+
+    requestAnimationFrame(animate);
+};

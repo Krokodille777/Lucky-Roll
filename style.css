@@ -1,0 +1,35 @@
+header{
+    text-align: center; 
+    font-size: 24px; 
+    font-weight: bold; 
+    margin-top: 20px;
+}
+
+#addBtn {
+    position: absolute;
+    top: 75px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    border-radius: 50%;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.shapeDiv{
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 70px;
+}
+
+#spinbtn {
+    display: block;
+    margin: 30px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}

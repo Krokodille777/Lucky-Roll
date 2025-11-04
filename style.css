@@ -105,7 +105,7 @@ header {
 .pickerCanvasDiv {
     position: absolute;
     top: 470px; /* Adjust as needed */
-    left: 63%;
+    left: 60%;
     transform: translateX(-50%);
     transform: rotate(-90deg);
     

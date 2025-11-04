@@ -101,3 +101,13 @@ header {
     font-size: 14px;
     cursor: pointer;
 }
+
+.pickerCanvasDiv {
+    position: absolute;
+    top: 470px; /* Adjust as needed */
+    left: 61%;
+    transform: translateX(-50%);
+    transform: rotate(-90deg);
+    
+    z-index: 10;
+}

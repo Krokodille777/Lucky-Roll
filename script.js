@@ -1,6 +1,10 @@
 const canvas = document.getElementById("circle");
 const context = canvas.getContext("2d");
 let isSpinning = false;
+
+
+
+
 if (!canvas.width || !canvas.height) {
   canvas.width = 400;
   canvas.height = 400;
@@ -163,3 +167,36 @@ spinBtn.addEventListener("click", function(){
 
     requestAnimationFrame(animate);
 });
+
+const canvas2 = document.getElementById("MyCanvas");
+const ctx2 = canvas2.getContext("2d");
+
+ctx2.beginPath();
+ctx2.moveTo(200, 0);
+ctx2.lineTo(170, 100);
+ctx2.lineTo(230, 100);
+ctx2.closePath();
+ctx2.fillStyle = "#f1c40f";
+ctx2.strokeStyle = "#e74c3c";
+ctx2.fill();
+
+function pickSegment() {
+    // Logic: If one of segments touches the canvas2 (triangle), show modal with segment info
+    const triangle = canvas2.getBoundingClientRect();
+    const wheel = canvas.getBoundingClientRect();
+
+    for (let i = 0; i < segments.length; i++) {
+        const anglePerSegment = 360 / segments.length;
+        const segmentStartAngle = i * anglePerSegment;
+        const segmentEndAngle = segmentStartAngle + anglePerSegment;
+
+        // Calculate the angle of the triangle pointer
+        const pointerAngle = (currentRotation % 360 + 360) % 360;
+        if (isSpinning === false && pointerAngle >= segmentStartAngle && pointerAngle < segmentEndAngle) {
+            document.getElementById("pickedSegmentText").textContent = `You landed on: ${segments[i].label}`;
+            document.getElementById("PickedModal").classList.remove("hidden");
+            break;
+        }
+
+    }
+}

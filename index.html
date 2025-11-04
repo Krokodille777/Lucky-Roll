@@ -24,12 +24,24 @@
                 <button id="saveNamesBtn">Save Names</button>
             </div>
         </div>
-        
+        <div class = "pickerCanvasDiv">
+            <canvas id = "MyCanvas"></canvas>
+        </div>
         <div class="shapeDiv">
+            <!--Circle-Wheel-->
             <canvas id="circle" width="600" height="600" style="border: 2px solid black; border-radius: 50%; margin-right: 20px; background-color: lightgrey; color: white;"></canvas>
         </div>
-
+        
         <button id="spinbtn">Spin!</button>
+
+
+        <div id="PickedModal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <span class="close" id="pickedClose">&times;</span>
+            
+                <p id="pickedSegmentText"></p>
+            </div>
+        </div>
         <script src="script.js"></script>
     </body>
 </html>

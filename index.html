@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,8 +12,20 @@
             Welcome to Lucky Roll!
         </header>
         <hr>
-        <button id = "addBtn" >+</button>
-        <div class = "shapeDiv">
+        <button id="addBtn">+</button>
+        <button id="nameBtn">Name Segments</button>
+        
+        <!-- Modal to name segments -->
+        <div id="nameModal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <span class="close" id="nameClose">&times;</span>
+                <h2>Name Segments</h2>
+                <div id="segmentNames"></div>
+                <button id="saveNamesBtn">Save Names</button>
+            </div>
+        </div>
+        
+        <div class="shapeDiv">
             <canvas id="circle" width="600" height="600" style="border: 2px solid black; border-radius: 50%; margin-right: 20px; background-color: lightgrey; color: white;"></canvas>
         </div>
 

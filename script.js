@@ -119,7 +119,7 @@ saveNamesBtn.addEventListener("click", function () {
 });
 
 
-const spinBtn = document.getElementById("spinBtn");
+const spinBtn = document.getElementById("spinbtn");
 spinBtn.addEventListener("click", function(){
     if (isSpinning) return;
     const canvas = document.getElementById("circle");

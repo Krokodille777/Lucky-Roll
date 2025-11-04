@@ -1,31 +1,20 @@
-const modal = document.getElementById('modal');
-const openBtn = document.getElementById('openModal');
-const closeBtn = document.querySelector('.close-btn');
+// Add Segment
+const addbtn = getElementById("addBtn");
 
-// Открытие
-openBtn.onclick = () => {
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-};
+addbtn.addEventListener("click", function () {
+    const canvas = document.getElementById("circle");
+    const context = canvas.getContext("2d");
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = Math.min(centerX, centerY) - 10;
 
-// Закрытие
-const closeModal = () => {
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-};
-
-closeBtn.onclick = closeModal;
-
-// Закрытие по клику на фон
-modal.onclick = (e) => {
-    if (e.target === modal) {
-        closeModal();
+    // Clear the canvas
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    // Redraw existing segments.
+    //If you want to add more segments, other ones decrease their size accordingly.
+    for (let i = 0; i < segments.length; i++) {
+        drawSegment(context, centerX, centerY, radius, i, segments.length);
     }
-};
+}
 
-// Закрытие по Escape
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-        closeModal();
-    }
-});
+);

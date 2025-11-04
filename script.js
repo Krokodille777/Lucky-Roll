@@ -2,7 +2,7 @@ const canvas = document.getElementById("circle");
 const context = canvas.getContext("2d");
 let isSpinning = false;
 
-
+currentRotationDeg = 0;
 
 
 if (!canvas.width || !canvas.height) {
@@ -126,9 +126,8 @@ saveNamesBtn.addEventListener("click", function () {
 const spinBtn = document.getElementById("spinbtn");
 spinBtn.addEventListener("click", function(){
     if (isSpinning) return;
-    const canvas = document.getElementById("circle");
-    const ctx = canvas.getContext("2d");
 
+    // Використовуємо вже наявний canvas/context
     const snapshot = document.createElement("canvas");
     snapshot.width = canvas.width;
     snapshot.height = canvas.height;
@@ -139,64 +138,59 @@ spinBtn.addEventListener("click", function(){
 
     const startTime = Date.now();
     const duration = 4000; // 4 seconds
-    const totalRotation = Math.random() * 360 + 360 * 5; // Random angle + 5 full rotations
-    let currentRotation = 0;
+    const totalRotationDeg = Math.random() * 360 + 360 * 5; // Random + 5 turns
+    currentRotationDeg = 0;
 
     const animate = () => {
         const elapsed = Date.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out
+        currentRotationDeg = eased * totalRotationDeg;
 
-        const eased = 1 - Math.pow(1 - progress, 3); // Ease out cubic
-        currentRotation = eased * totalRotation;
-
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.save();
-        ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.rotate((currentRotation * Math.PI) / 180);
-        ctx.translate(-canvas.width / 2, -canvas.height / 2);
-        ctx.drawImage(snapshot, 0, 0);
-        ctx.restore();
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.save();
+        context.translate(canvas.width / 2, canvas.height / 2);
+        context.rotate((currentRotationDeg * Math.PI) / 180);
+        context.translate(-canvas.width / 2, -canvas.height / 2);
+        context.drawImage(snapshot, 0, 0);
+        context.restore();
 
         if (progress < 1) {
             requestAnimationFrame(animate);
         } else {
             isSpinning = false;
+            revealSelected(); // показати вибраний сегмент
         }
     };
 
     requestAnimationFrame(animate);
 });
+// ...existing code...
 
-const canvas2 = document.getElementById("MyCanvas");
-const ctx2 = canvas2.getContext("2d");
+// Допоміжні: нормалізація кута та визначення індекса
+function normalizeDeg(deg) {
+  return ((deg % 360) + 360) % 360;
+}
 
-ctx2.beginPath();
-ctx2.moveTo(200, 0);
-ctx2.lineTo(170, 100);
-ctx2.lineTo(230, 100);
-ctx2.closePath();
-ctx2.fillStyle = "#f1c40f";
-ctx2.strokeStyle = "#e74c3c";
-ctx2.fill();
+function getSelectedIndex(rotationDeg) {
+  const n = segments.length;
+  if (n === 0) return -1;
+  const step = 360 / n;
+  const a = normalizeDeg(rotationDeg);
+  // Враховуємо, що сегменти малюються зі зсувом -90°, а стрілка — на 12 годині
+  return (n - Math.floor((a + step / 2) / step)) % n;
+}
 
+function revealSelected() {
+  const idx = getSelectedIndex(currentRotationDeg);
+  if (idx < 0) return;
+  const el = document.getElementById("pickedSegmentText");
+  if (el) el.textContent = `You landed on: ${segments[idx].label}`;
+  const modal = document.getElementById("PickedModal");
+  if (modal) modal.classList.remove("hidden");
+}
+
+// Замінюємо старий pickSegment на простий виклик логіки
 function pickSegment() {
-    // Logic: If one of segments touches the canvas2 (triangle), show modal with segment info
-    const triangle = canvas2.getBoundingClientRect();
-    const wheel = canvas.getBoundingClientRect();
-
-    for (let i = 0; i < segments.length; i++) {
-        const anglePerSegment = 360 / segments.length;
-        const segmentStartAngle = i * anglePerSegment;
-        const segmentEndAngle = segmentStartAngle + anglePerSegment;
-
-        // Calculate the angle of the triangle pointer
-        const pointerAngle = (currentRotation % 360 + 360) % 360;
-        if (isSpinning === false && pointerAngle >= segmentStartAngle && pointerAngle < segmentEndAngle) {
-            document.getElementById("pickedSegmentText").textContent = `You landed on: ${segments[i].label}`;
-            document.getElementById("PickedModal").classList.remove("hidden");
-            break;
-        }
-
-    }
+  revealSelected();
 }

@@ -12,35 +12,19 @@
         </header>
         <hr>
         <button id = "addBtn" onclick="openModal()">+</button>
-        <button id = "settingsBtn" onclick="openSettingsModal()">⚙️</button>
         <div class = "shapeDiv">
             <canvas id="circle" width="600" height="600" style="border: 2px solid black; border-radius: 50%; margin-right: 20px; background-color: lightgrey; color: white;"></canvas>
         </div>
-        <div id="modal" class="modal-overlay">
-            <div class="modal-content">
-                <span id="closeBtn" class="close-button" onclick="closeModal()">&times;</span>
-                <h2>Add Segment</h2>
-                <label for="segmentText">Segment Text:</label>
-                <input type="text" id="segmentText" name="segmentText"><br><br>
-                <label for="segmentColor">Segment Color:</label>
-                <input type="color" id="segmentColor" name="segmentColor" value="#ff0000"><br><br>
-                <button id="saveSegmentBtn">Save Segment</button>
-            </div>
-        </div>
-        <div id = "modal2" class="modal-overlay">
-            <div class="modal-content">
-                <span id="closeBtn2" class="close-button">&times;</span>
-                <h2>Settings</h2>
-                <label for="settingsTextColor">Settings Text Color:</label>
-                <input type="text" id="settingsTextColor" name="settingsTextColor"><br><br>
-                <label for="settingsBgColor">Settings Background Color:</label>
-                <input type="color" id="settingsBgColor" name="settingsBgColor" value="#ffffff"><br><br>
-                <label for="settingsBorderColor">Settings Text Size:</label>
-                <input type="number" id="settingsTextSize" name="settingsTextSize" value="16"><br><br>
-                <button id="saveSettingsBtn">Save Settings</button>
+    <button id="openModal">Открыть модальное окно</button>
 
-            </div>
-        </div>
+    <div id="modal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-btn">&times;</button>
+        <h2>Заголовок</h2>
+        <p>Содержимое модального окна</p>
+        <button id="confirmBtn">Подтвердить</button>
+    </div>
+    </div>
         <button id="spinbtn">Spin!</button>
         <script src="script.js"></script>
     </body>

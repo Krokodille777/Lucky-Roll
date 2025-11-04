@@ -1,6 +1,6 @@
 const canvas = document.getElementById("circle");
 const context = canvas.getContext("2d");
-
+let isSpinning = false;
 if (!canvas.width || !canvas.height) {
   canvas.width = 400;
   canvas.height = 400;
@@ -116,4 +116,50 @@ saveNamesBtn.addEventListener("click", function () {
   
   redrawWheel();
   modal.classList.add("hidden");
+});
+
+
+const spinBtn = document.getElementById("spinBtn");
+spinBtn.addEventListener("click", function(){
+    if (isSpinning) return;
+    const canvas = document.getElementById("circle");
+    const ctx = canvas.getContext("2d");
+
+    const snapshot = document.createElement("canvas");
+    snapshot.width = canvas.width;
+    snapshot.height = canvas.height;
+    const snapshotCtx = snapshot.getContext("2d");
+    snapshotCtx.drawImage(canvas, 0, 0);
+
+    isSpinning = true;
+
+    const startTime = Date.now();
+    const duration = 4000; // 4 seconds
+    const totalRotation = Math.random() * 360 + 360 * 5; // Random angle + 5 full rotations
+    let currentRotation = 0;
+
+    const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        const eased = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+        currentRotation = eased * totalRotation;
+
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate((currentRotation * Math.PI) / 180);
+        ctx.translate(-canvas.width / 2, -canvas.height / 2);
+        ctx.drawImage(snapshot, 0, 0);
+        ctx.restore();
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            isSpinning = false;
+        }
+    };
+
+    requestAnimationFrame(animate);
 });

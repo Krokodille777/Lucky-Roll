@@ -165,8 +165,26 @@ spinBtn.addEventListener("click", function(){
 
     requestAnimationFrame(animate);
 });
-// ...existing code...
+function closeModal() {
+  const modal = document.getElementById("PickedModal");
+    if (modal) modal.classList.add("hidden");
+}
+const closeModalBtn = document.getElementById("pickedClose");
+if (closeModalBtn) {
+  closeModalBtn.addEventListener("click", closeModal);
+}
+const triangle = document.getElementById("MyCanvas");
+const ctx = triangle.getContext("2d");
+triangle.width = 120;
+triangle.height = 120;
+ctx.fillStyle = "red";
 
+ctx.beginPath();
+ctx.moveTo(triangle.width / 2, 0);
+ctx.lineTo(0, triangle.height);
+ctx.lineTo(triangle.width, triangle.height);
+ctx.closePath();
+ctx.fill();
 // Допоміжні: нормалізація кута та визначення індекса
 function normalizeDeg(deg) {
   return ((deg % 360) + 360) % 360;

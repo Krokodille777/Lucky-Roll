@@ -104,17 +104,24 @@ header {
 
 .pickerCanvasDiv {
     position: absolute;
-    top: 210px; /* Adjust as needed */
-    left: 58%;
+    top: 180px;
+    left: 50%;
     transform: translateX(-50%);
-    transform: rotate(45deg);
-    
     z-index: 10;
 }
 body {
     font-family: Arial, sans-serif;
     background-color: #1a0077;
     margin: 0;
-    color: rgb(216, 195, 9);
     padding: 0;
+}
+
+header{
+    color: #ffd900;
+    padding: 10px;
+}
+hr{
+    border: 0;
+    height: 2px;
+    background: #ffd900;
 }

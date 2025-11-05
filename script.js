@@ -13,6 +13,7 @@ const triangle = document.getElementById("MyCanvas");
 const ctx = triangle.getContext("2d");
 triangle.width = 120;
 triangle.height = 120;
+
 ctx.fillStyle = "red";
 
 ctx.beginPath();
@@ -187,16 +188,18 @@ function getSelectedIndex() {
   const n = segments.length;
   if (n === 0) return -1;
 
-  // Normalize rotation to 0-360 range
-  const normalizedRotation = ((currentRotationDeg % 360) + 360) % 360;
-  
-  // Each segment's angle size
-  const segmentAngle = 360 / n;
-  
-  // Pointer is at top, segments start at top, perfect match!
-  const index = Math.floor(normalizedRotation / segmentAngle) % n;
-  
-  return index;
+  const step = 360 / n;
+  const startOffset = -90;   // сегменты начинаются с 12 часов
+  const pointerAngle = 0;    // указатель справа (3 часа). Если сверху — 270.
+
+  // Нормализованный угол, учитывающий направление вращения (по часовой в canvas)
+  const r = ((currentRotationDeg % 360) + 360) % 360;
+
+  // Угол луча указателя в системе колеса
+  const a = ((pointerAngle - startOffset + r) % 360 + 360) % 360;
+
+  const eps = 1e-6;          // защита от граничных случаев
+  return Math.floor((a + eps) / step) % n;
 }
 
 // Reveal the selected segment

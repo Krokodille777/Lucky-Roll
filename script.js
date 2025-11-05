@@ -1,14 +1,26 @@
+
 const canvas = document.getElementById("circle");
 const context = canvas.getContext("2d");
 let isSpinning = false;
-
-currentRotationDeg = 0;
-
+let currentRotationDeg = 0;
 
 if (!canvas.width || !canvas.height) {
   canvas.width = 400;
   canvas.height = 400;
 }
+
+const triangle = document.getElementById("MyCanvas");
+const ctx = triangle.getContext("2d");
+triangle.width = 120;
+triangle.height = 120;
+ctx.fillStyle = "red";
+
+ctx.beginPath();
+ctx.moveTo(triangle.width / 2, triangle.height); // Point at bottom
+ctx.lineTo(0, 0); // Top left
+ctx.lineTo(triangle.width, 0); // Top right
+ctx.closePath();
+ctx.fill();
 
 const segments = [];
 const segment_colors = ["#e74c3c", "#3498db", "#2ecc71", "#f1c40f", "#9b59b6", "#e67e22"];
@@ -122,93 +134,95 @@ saveNamesBtn.addEventListener("click", function () {
   modal.classList.add("hidden");
 });
 
-
+// Spin button functionality
 const spinBtn = document.getElementById("spinbtn");
-spinBtn.addEventListener("click", function(){
-    if (isSpinning) return;
+spinBtn.addEventListener("click", function() {
+  if (isSpinning) return;
+  
+  if (segments.length === 0) {
+    alert("Please add segments first!");
+    return;
+  }
 
-    // Використовуємо вже наявний canvas/context
-    const snapshot = document.createElement("canvas");
-    snapshot.width = canvas.width;
-    snapshot.height = canvas.height;
-    const snapshotCtx = snapshot.getContext("2d");
-    snapshotCtx.drawImage(canvas, 0, 0);
+  // Create snapshot of current wheel state
+  const snapshot = document.createElement("canvas");
+  snapshot.width = canvas.width;
+  snapshot.height = canvas.height;
+  const snapshotCtx = snapshot.getContext("2d");
+  snapshotCtx.drawImage(canvas, 0, 0);
 
-    isSpinning = true;
+  isSpinning = true;
 
-    const startTime = Date.now();
-    const duration = 4000; // 4 seconds
-    const totalRotationDeg = Math.random() * 360 + 360 * 5; // Random + 5 turns
-    currentRotationDeg = 0;
+  const startTime = Date.now();
+  const duration = 3000; // 3 seconds
+  const totalRotationDeg = Math.random() * 360 + 360 * 5; // Random + 5 turns
+  currentRotationDeg = 0;
 
-    const animate = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3); // ease-out
-        currentRotationDeg = eased * totalRotationDeg;
+  const animate = () => {
+    const elapsed = Date.now() - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3); // ease-out
+    currentRotationDeg = eased * totalRotationDeg;
 
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.save();
-        context.translate(canvas.width / 2, canvas.height / 2);
-        context.rotate((currentRotationDeg * Math.PI) / 180);
-        context.translate(-canvas.width / 2, -canvas.height / 2);
-        context.drawImage(snapshot, 0, 0);
-        context.restore();
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.save();
+    context.translate(canvas.width / 2, canvas.height / 2);
+    context.rotate((currentRotationDeg * Math.PI) / 180);
+    context.translate(-canvas.width / 2, -canvas.height / 2);
+    context.drawImage(snapshot, 0, 0);
+    context.restore();
 
-        if (progress < 1) {
-            requestAnimationFrame(animate);
-        } else {
-            isSpinning = false;
-            revealSelected(); // показати вибраний сегмент
-        }
-    };
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      isSpinning = false;
+      revealSelected(); // Show selected segment
+    }
+  };
 
-    requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
 });
-function closeModal() {
-  const modal = document.getElementById("PickedModal");
-    if (modal) modal.classList.add("hidden");
-}
-const closeModalBtn = document.getElementById("pickedClose");
-if (closeModalBtn) {
-  closeModalBtn.addEventListener("click", closeModal);
-}
-const triangle = document.getElementById("MyCanvas");
-const ctx = triangle.getContext("2d");
-triangle.width = 120;
-triangle.height = 120;
-ctx.fillStyle = "red";
-
-ctx.beginPath();
-ctx.moveTo(triangle.width / 2, 0);
-ctx.lineTo(0, triangle.height);
-ctx.lineTo(triangle.width, triangle.height);
-ctx.closePath();
-ctx.fill();
-// Допоміжні: нормалізація кута та визначення індекса
-function normalizeDeg(deg) {
-  return ((deg % 360) + 360) % 360;
-}
-
-function getSelectedIndex(rotationDeg) {
+// Get selected segment index based on rotation
+function getSelectedIndex() {
   const n = segments.length;
   if (n === 0) return -1;
-  const step = 360 / n;
-  const a = normalizeDeg(rotationDeg);
-  // Враховуємо, що сегменти малюються зі зсувом -90°, а стрілка — на 12 годині
-  return (n - Math.floor((a + step / 2) / step)) % n;
+
+  // Normalize rotation to 0-360 range
+  const normalizedRotation = ((currentRotationDeg % 360) + 360) % 360;
+  
+  // Each segment's angle size
+  const segmentAngle = 360 / n;
+  
+  // Pointer is at top, segments start at top, perfect match!
+  const index = Math.floor(normalizedRotation / segmentAngle) % n;
+  
+  return index;
 }
 
+// Reveal the selected segment
 function revealSelected() {
-  const idx = getSelectedIndex(currentRotationDeg);
+  const idx = getSelectedIndex();
   if (idx < 0) return;
+  
   const el = document.getElementById("pickedSegmentText");
   if (el) el.textContent = `You landed on: ${segments[idx].label}`;
+  
   const modal = document.getElementById("PickedModal");
   if (modal) modal.classList.remove("hidden");
 }
 
-// Замінюємо старий pickSegment на простий виклик логіки
+// Alternative function to pick segment
 function pickSegment() {
   revealSelected();
 }
+// Close picked modal
+function closeModal() {
+  const modal = document.getElementById("PickedModal");
+  if (modal) modal.classList.add("hidden");
+}
+
+const closeModalBtn = document.getElementById("pickedClose");
+if (closeModalBtn) {
+  closeModalBtn.addEventListener("click", closeModal);
+}
+

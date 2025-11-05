@@ -3,6 +3,7 @@ const canvas = document.getElementById("circle");
 const context = canvas.getContext("2d");
 let isSpinning = false;
 let currentRotationDeg = 0;
+let accumulatedRotationDeg = 0;
 
 if (!canvas.width || !canvas.height) {
   canvas.width = 400;
@@ -62,10 +63,17 @@ function redrawWheel() {
 
   if (segments.length === 0) return;
 
+  context.save();
+  context.translate(centerX, centerY);
+  context.rotate((accumulatedRotationDeg * Math.PI) / 180);
+  context.translate(-centerX, -centerY);
+
   for (let i = 0; i < segments.length; i++) {
     const color = segment_colors[i % segment_colors.length];
     drawSegment(context, centerX, centerY, radius, i, segments.length, color, segments[i].label);
   }
+
+  context.restore();
 }
 
 // Add Segment
@@ -176,8 +184,10 @@ spinBtn.addEventListener("click", function() {
     if (progress < 1) {
       requestAnimationFrame(animate);
     } else {
+      accumulatedRotationDeg = (accumulatedRotationDeg + totalRotationDeg) % 360;
+      currentRotationDeg = 0;
       isSpinning = false;
-      revealSelected(); // Show selected segment
+      revealSelected();
     }
   };
 
@@ -190,13 +200,24 @@ function getSelectedIndex() {
 
   const step = 360 / n;
   const startOffset = -90;   // сегменты начинаются с 12 часов
-  const pointerAngle = 0;    // указатель справа (3 часа). Если сверху — 270.
+  const pointerAngle = (() => {
+    const wheelRect = canvas.getBoundingClientRect();
+    const centerX = wheelRect.left + wheelRect.width / 2;
+    const centerY = wheelRect.top + wheelRect.height / 2;
+
+    const ptrRect = triangle.getBoundingClientRect();
+    const tipX = ptrRect.left + ptrRect.width / 2;
+    const tipY = ptrRect.bottom;
+
+    const angleRad = Math.atan2(tipY - centerY, tipX - centerX);
+    return ((angleRad * 180) / Math.PI + 360) % 360;
+  })();
 
   // Нормализованный угол, учитывающий направление вращения (по часовой в canvas)
-  const r = ((currentRotationDeg % 360) + 360) % 360;
+  const r = ((accumulatedRotationDeg % 360) + 360) % 360;
 
   // Угол луча указателя в системе колеса
-  const a = ((pointerAngle - startOffset + r) % 360 + 360) % 360;
+  const a = ((pointerAngle - startOffset - r) % 360 + 360) % 360;
 
   const eps = 1e-6;          // защита от граничных случаев
   return Math.floor((a + eps) / step) % n;

@@ -92,6 +92,8 @@ header {
     margin: 30px auto;
     padding: 10px 20px;
     font-size: 16px;
+    background-color: #3498db;
+    color: white;
     cursor: pointer;
 }
 
@@ -100,6 +102,9 @@ header {
     padding: 10px 15px;
     font-size: 14px;
     cursor: pointer;
+    background-color: #27ae60;
+    color: white;
+    border-radius : 5px;
 }
 
 .pickerCanvasDiv {
@@ -111,7 +116,7 @@ header {
 }
 body {
     font-family: Arial, sans-serif;
-    background-color: #1a0077;
+    background-color: #120250;
     margin: 0;
     padding: 0;
 }

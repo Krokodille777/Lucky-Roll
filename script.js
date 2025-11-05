@@ -1,4 +1,4 @@
-
+// script.js
 const canvas = document.getElementById("circle");
 const context = canvas.getContext("2d");
 let isSpinning = false;
@@ -9,7 +9,7 @@ if (!canvas.width || !canvas.height) {
   canvas.width = 400;
   canvas.height = 400;
 }
-
+// Draw pointer triangle
 const triangle = document.getElementById("MyCanvas");
 const ctx = triangle.getContext("2d");
 triangle.width = 120;
@@ -23,10 +23,10 @@ ctx.lineTo(0, 0); // Top left
 ctx.lineTo(triangle.width, 0); // Top right
 ctx.closePath();
 ctx.fill();
-
+// Data structure for segments
 const segments = [];
 const segment_colors = ["#e74c3c", "#3498db", "#2ecc71", "#f1c40f", "#9b59b6", "#e67e22"];
-
+// Draw a segment of the wheel
 function drawSegment(ctx, centerX, centerY, radius, index, total, color, label) {
   const startAngle = (index / total) * Math.PI * 2 - Math.PI / 2;
   const endAngle = ((index + 1) / total) * Math.PI * 2 - Math.PI / 2;
@@ -53,14 +53,14 @@ function drawSegment(ctx, centerX, centerY, radius, index, total, color, label) 
   ctx.textBaseline = "middle";
   ctx.fillText(label, textX, textY);
 }
-
+// Redraw the wheel
 function redrawWheel() {
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
   const radius = Math.min(centerX, centerY) - 10;
-
+// Clear canvas
   context.clearRect(0, 0, canvas.width, canvas.height);
-
+  
   if (segments.length === 0) return;
 
   context.save();
@@ -129,7 +129,7 @@ window.addEventListener("click", function (event) {
 // Save names
 saveNamesBtn.addEventListener("click", function () {
   const inputs = segmentNamesDiv.querySelectorAll(".segmentNameInput");
-  
+  // Сохраняем новые имена сегментов
   inputs.forEach((input) => {
     const index = parseInt(input.dataset.index);
     const newName = input.value.trim();
@@ -153,7 +153,7 @@ spinBtn.addEventListener("click", function() {
     return;
   }
 
-  // Create snapshot of current wheel state
+  // Создаем снимок текущего состояния колеса
   const snapshot = document.createElement("canvas");
   snapshot.width = canvas.width;
   snapshot.height = canvas.height;
@@ -161,12 +161,12 @@ spinBtn.addEventListener("click", function() {
   snapshotCtx.drawImage(canvas, 0, 0);
 
   isSpinning = true;
-
+  // Animation parameters
   const startTime = Date.now();
   const duration = 3000; // 3 seconds
   const totalRotationDeg = Math.random() * 360 + 360 * 5; // Random + 5 turns
   currentRotationDeg = 0;
-
+  // Animation loop
   const animate = () => {
     const elapsed = Date.now() - startTime;
     const progress = Math.min(elapsed / duration, 1);
@@ -201,14 +201,15 @@ function getSelectedIndex() {
   const step = 360 / n;
   const startOffset = -90;   // сегменты начинаются с 12 часов
   const pointerAngle = (() => {
+    // Вычисляем угол указателя относительно центра колеса
     const wheelRect = canvas.getBoundingClientRect();
     const centerX = wheelRect.left + wheelRect.width / 2;
     const centerY = wheelRect.top + wheelRect.height / 2;
-
+    // Положение вершины треугольника
     const ptrRect = triangle.getBoundingClientRect();
     const tipX = ptrRect.left + ptrRect.width / 2;
     const tipY = ptrRect.bottom;
-
+    // Вычисляем угол в градусах
     const angleRad = Math.atan2(tipY - centerY, tipX - centerX);
     return ((angleRad * 180) / Math.PI + 360) % 360;
   })();

@@ -97,7 +97,7 @@ header {
     cursor: pointer;
 }
 
-#addBtn, #nameBtn {
+#addBtn, #nameBtn, #removeBtn {
     margin: 10px 5px;
     padding: 10px 15px;
     font-size: 14px;

@@ -1,9 +1,4 @@
-header {
-    text-align: center; 
-    font-size: 24px; 
-    font-weight: bold; 
-    margin-top: 20px;
-}
+
 
 .modal-overlay {
     position: fixed;
@@ -121,9 +116,44 @@ body {
     padding: 0;
 }
 
-header{
+header {
+     display: flex;
+    flex-direction: row;
+    
+    justify-content: space-between; 
+    align-items: center;
+    padding: 10px 5%; 
     color: #ffd900;
-    padding: 10px;
+    min-height: 60px;
+}
+
+#nav1 {
+    
+    text-align: center; 
+    margin: 0; 
+    position: static; 
+    padding: 0;
+}
+    @media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        justify-content: center;
+    }
+    #nav1 {
+        margin-top: 15px;
+    }
+}
+
+
+
+#nav1 #languageSelect {
+    font-size: 16px;
+    padding: 5px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 hr{
     border: 0;

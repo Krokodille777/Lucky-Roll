@@ -276,3 +276,83 @@ if (closeModalBtn) {
   closeModalBtn.addEventListener("click", closeModal);
 }
 
+
+//Language Section
+const langSelect = document.getElementById("languageSelect");
+const welcomeText = document.getElementById("welcomeText");
+const nameSegmenth2 = document.getElementById("nameSegmenth2");
+langSelect.addEventListener("change", function(){
+  const selectedLang = langSelect.value;
+  
+  if (selectedLang === "en") {
+    welcomeText.textContent = "Welcome to Lucky Roll!";
+    nameBtn.textContent = "Name Segments";
+    spinBtn.textContent = "Spin!";
+    saveNamesBtn.textContent = "Save Names";
+    nameSegmenth2.textContent = "Name Segments";
+  }
+  else if (selectedLang === "de") {
+    welcomeText.textContent = "Willkommen bei Lucky Roll!";
+    nameBtn.textContent = "Segmente benennen";
+    spinBtn.textContent = "Drehen!";
+    saveNamesBtn.textContent = "Namen speichern";
+    nameSegmenth2.textContent = "Segmente benennen";
+  }
+  else if (selectedLang === "es") {
+    welcomeText.textContent = "¡Bienvenido a Lucky Roll!";
+    nameBtn.textContent = "Nombrar segmentos";
+    spinBtn.textContent = "¡Girar!";
+    saveNamesBtn.textContent = "Guardar nombres";
+    nameSegmenth2.textContent = "Nombrar segmentos";
+  }
+  else if (selectedLang === "fr") {
+    welcomeText.textContent = "Bienvenue à Lucky Roll!";
+    nameBtn.textContent = "Nommer les segments";
+    spinBtn.textContent = "Tourner!";
+    saveNamesBtn.textContent = "Enregistrer les noms";
+    nameSegmenth2.textContent = "Nommer les segments";
+  }
+  else if (selectedLang === "it") {
+    welcomeText.textContent = "Benvenuto a Lucky Roll!";
+    nameBtn.textContent = "Nomina segmenti";
+    spinBtn.textContent = "Gira!";
+    saveNamesBtn.textContent = "Salva nomi";
+    nameSegmenth2.textContent = "Nomina segmenti";
+  }
+  else if (selectedLang === "zh") {
+    welcomeText.textContent = "欢迎来到幸运轮盘！";
+    nameBtn.textContent = "命名部分";
+    spinBtn.textContent = "旋转！";
+    saveNamesBtn.textContent = "保存名称";
+    nameSegmenth2.textContent = "命名部分";
+  }
+  else if (selectedLang === "ja") {
+    welcomeText.textContent = "ラッキーロールへようこそ！";
+    nameBtn.textContent = "セグメントに名前を付ける";
+    spinBtn.textContent = "スピン！";
+    saveNamesBtn.textContent = "名前を保存";
+    nameSegmenth2.textContent = "セグメントに名前を付ける";
+  }
+  else if (selectedLang === "ko") {
+    welcomeText.textContent = "럭키 롤에 오신 것을 환영합니다!";
+    nameBtn.textContent = "세그먼트 이름 지정";
+    spinBtn.textContent = "돌리기!";
+    saveNamesBtn.textContent = "이름 저장";
+    nameSegmenth2.textContent = "세그먼트 이름 지정";
+  }
+  else if (selectedLang === "uk") {
+    welcomeText.textContent = "Ласкаво просимо до Lucky Roll!";
+    nameBtn.textContent = "Назвати сегменти";
+    spinBtn.textContent = "Крутити!";
+    saveNamesBtn.textContent = "Зберегти імена";
+    nameSegmenth2.textContent = "Назвати сегменти";
+  }
+  else if (selectedLang === "ru") {
+    welcomeText.textContent = "Добро пожаловать в Lucky Roll!";
+    nameBtn.textContent = "Назвать сегменты";
+    spinBtn.textContent = "Крутить!";
+    saveNamesBtn.textContent = "Сохранить имена";
+    nameSegmenth2.textContent = "Назвать сегменты";
+  }
+  console.log("Selected language:", selectedLang);
+});

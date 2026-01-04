@@ -36,3 +36,9 @@ When new segment is added (or removed), other segments reduce (or increase) thei
 Contributions are welcome! If you have suggestions for improvements or want to report bugs, please open an issue or submit a pull request.
 
 
+
+## 📰 v1.1.0 - Recent Updates:
+ - Now you can remove segments using the "-" button!
+ - Added ability to change the app's language!
+
+

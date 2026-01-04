@@ -7,8 +7,8 @@ Lucky+Roll is a wonderful place for those who love randomness and excitement! It
 
 - **👾 Game-like Design**: The game-like, user-friendly interface makes it easy and fun to use.
 - **🍕 Segments +/-**: Add or Remove segments easily and smoothly.
-- **📝 Segments Naming**: Name each segment how you want any time. Even empty names are allowed!'
-
+- **📝 Segments Naming**: Name each segment how you want any time. Even empty names are allowed!
+ 
 ## ❓ How to Use Lucky+Roll? 
 
 Before using, it needs to be **loaded**. There are 2 ways to do it:
